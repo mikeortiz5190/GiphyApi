@@ -2,19 +2,35 @@ $( document ).ready(function(){
       // Initial array
       var first = ["toasters", "Subaru WRX STI", "Alien", "Ice Age"];
 
-        // Function to display buttons
-      function renderButtons() {
-        //prevents button repeats of the same name.
-          for(i = 0; i < first.length; i++){
+      //display the initial list of Giphs
+      renderButtons1();
 
-          if($("#giphy-input").val().trim() === first[i]){
+      function renderButtons1(){
+        for (i = 0; i < first.length; i++) { 
+           $("#buttons-view").append("<button class='btn btn-primary btn-giphs' data-movie='" + first[i] + "'>" + first[i] + "</button>");
+           console.log(first.length);
+           console.log("<button data-movie='" + first[i] + "'>" + first[i] + "</button>");
+
+              };
+      };
+
+        // Function to display newly added buttons
+      function renderButtons2() {
+          console.log(first.length);
+
+        //prevents button repeats of the same name.
+        var newGiph = $("#giphy-input").val().trim();
+        console.log(newGiph);
+
+          if(first.indexOf(newGiph) != -1){
+    
+            console.log("REPEAT PREVENTED");
+
             return false;
           }
 
           else{
         //if its not a repeat, the function pulls from the 
-
-         var newGiph = $("#giphy-input").val().trim();
 
         first.push(newGiph);
 
@@ -31,21 +47,18 @@ $( document ).ready(function(){
 
               };
             }
-          };
        };
 
       // When the button is clicked, the new text is pushed into an array
       $("#add-giph").on("click", function() {
       
-        renderButtons();
+      renderButtons2();
       });
-
-      //display the initial list of Giphs
-      renderButtons();
 
       //API Call function
 
-    $("button").on("click", function() {
+    // $("button").on("click", function() {
+    $(document).on("click", ".btn-giphs", function() {
       var giphName = $(this).attr('data-movie');
       var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
         giphName + "&api_key=dc6zaTOxFJmzC&limit=10";
@@ -82,11 +95,5 @@ $( document ).ready(function(){
           }
         });
     });
-
-    $("button").on("click", function() {
-        console.log("I work!");
-
-     });   
-
 
 });
